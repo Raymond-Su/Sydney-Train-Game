@@ -1,0 +1,32 @@
+{
+  "name": "solve10",
+  "version": "1.0.0",
+  "description": "An application where users try to make 10 using 4 numbers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -r dotenv/config server.js"
+  },
+  "author": "Raymond.su",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "nodemon": "^2.0.4"
+  },
+  "repository": "",
+  "devDependencies": {
+    "eslint": "^7.12.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-config-standard": "^15.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.2",
+    "morgan": "^1.10.0",
+    "prettier": "2.1.2"
+  }
+}
