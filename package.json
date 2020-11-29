@@ -1,0 +1,19 @@
+{
+  "name": "sydney-train-game",
+  "version": "1.0.0",
+  "description": "This was an attempt to solve the Sydney Train Game",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd client && npm install && npm run build && cd ../server && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raymond-Su/make10.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raymond-Su/make10/issues"
+  },
+  "homepage": "https://github.com/Raymond-Su/make10#readme"
+}

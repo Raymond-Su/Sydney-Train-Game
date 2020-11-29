@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "persist-start": "nodemon -r dotenv/config server.js",
-    "start": "cd ../client && npm install && npm run build && node ../server/server.js"
+    "start": "nodemon -r dotenv/config server.js"
   },
   "author": "Raymond.su",
   "license": "ISC",
