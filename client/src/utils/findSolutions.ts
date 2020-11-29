@@ -76,7 +76,7 @@ export const isSolveable = (puzzle: number[], target = 10) => {
             subProblems[i][j].push(a + b);
             subProblems[i][j].push(a - b);
             subProblems[i][j].push(a * b);
-            subProblems[i][j].push(Math.pow(b, a));
+            subProblems[i][j].push(Math.pow(a, b));
             if (b !== 0) {
               subProblems[i][j].push(a / b);
             }
