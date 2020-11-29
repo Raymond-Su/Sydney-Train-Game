@@ -75,7 +75,7 @@ const Landing = () => {
             solveabale ? (
               <div>
                 <h1 className="solveable">Solveable</h1>
-                <p>Examples of solutions</p>
+                <p>Number of solutions: {solutions.length}</p>
                 {solutions.map((solution: string) => (
                   <p key={uuidv1()}>{solution}</p>
                 ))}
