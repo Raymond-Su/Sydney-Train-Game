@@ -36,12 +36,14 @@ const Landing = () => {
   return (
     <div className="App">
       <div className="train-game-container">
-        <h1>Sydney Train Game</h1>
-        <p className="subtitle">
-          Solver to the train/bus/ferry/tram/any 4 digit number game. Must make
-          10 by using all 4 numbers in order. Can use any number of parentheses
-          and the + - × ÷ operators.
-        </p>
+        <div className="title-container">
+          <h1 className="title-content">Sydney Train Game</h1>
+          <p className="title-content">
+            Solver to the train/bus/ferry/tram/any 4 digit number game. Must
+            make 10 by using all 4 numbers in order. Can use any number of
+            parentheses and the + - × ÷ operators.
+          </p>
+        </div>
         <form className="puzzle-form" autoComplete="off">
           <input
             autoComplete="off"
