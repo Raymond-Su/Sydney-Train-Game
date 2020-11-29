@@ -4,7 +4,8 @@
   "description": "This was an attempt to solve the Sydney Train Game",
   "main": "index.js",
   "scripts": {
-    "start": "cd client && npm install && npm run build && cd ../server && node server.js"
+    "heroku-prebuild": "cd client && npm install && npm run build",
+    "start": "node ./server/server.js"
   },
   "repository": {
     "type": "git",
