@@ -1,6 +1,6 @@
-import React, {useState, KeyboardEvent} from 'react';
-import {v1 as uuidv1} from 'uuid';
-import {findSolutions, isSolveable} from '../../utils/findSolutions';
+import React, { useState, KeyboardEvent } from 'react';
+import { v1 as uuidv1 } from 'uuid';
+import { findSolutions, isSolveable } from '../../utils/findSolutions';
 
 import './Landing.css';
 
@@ -17,8 +17,8 @@ const validateNumber = (evt: KeyboardEvent<HTMLInputElement>) => {
       key === 'Enter' ||
       key === 'Home' ||
       key === 'End' ||
-      key === 'Left' ||
-      key === 'Right' ||
+      key === 'ArrowLeft' ||
+      key === 'ArrowRight' ||
       key === 'Delete' ||
       key === 'Insert')
   ) {
@@ -53,11 +53,11 @@ const Landing = () => {
             pattern="\d*"
             onKeyDown={validateNumber}
             onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-              const {value} = e.target as HTMLInputElement;
+              const { value } = e.target as HTMLInputElement;
               setValidInput(value.length === 4);
               setSolutions([]);
               if (value.length === 4) {
-                const puzzle = Array.from(value).map(i => parseInt(i, 10));
+                const puzzle = Array.from(value).map((i) => parseInt(i, 10));
                 if (isSolveable(puzzle)) {
                   setSolveable(true);
                   setSolutions(findSolutions(puzzle));

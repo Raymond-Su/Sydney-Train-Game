@@ -1,6 +1,6 @@
-import {evaluateRPNExpression} from './evaluate';
-import {inOrderCombinations, RPNToInfix} from './expressions';
-import {product} from './product';
+import { evaluateRPNExpression } from './evaluate';
+import { inOrderCombinations, RPNToInfix } from './expressions';
+import { product } from './product';
 
 export const basicOperators = ['/', '*', '-', '+'];
 export const advancedOperators = ['^'];
@@ -24,21 +24,21 @@ export const findSolutions = (
     inOrderCombinations(
       puzzleString.slice(2, puzzle.length),
       opList.slice(0, opList.length - 1)
-    ).forEach(middleSegment => {
+    ).forEach((middleSegment) => {
       // Prepend the two operands and append the operator
       RPNExpressions.push([
         ...puzzleString.slice(0, 2),
         ...middleSegment,
-        ...opList[opList.length - 1],
+        ...opList[opList.length - 1]
       ]);
     });
   });
   const RPNSolutions: string[][] = RPNExpressions.filter(
-    expr => evaluateRPNExpression(expr) === goal
+    (expr) => evaluateRPNExpression(expr) === goal
   );
 
   // Convert to infix solution to make it human readable
-  const infixSolutions = RPNSolutions.map(solution => RPNToInfix(solution));
+  const infixSolutions = RPNSolutions.map((solution) => RPNToInfix(solution));
   return [...new Set(infixSolutions)];
 };
 
@@ -65,12 +65,12 @@ export const isSolveable = (puzzle: number[], target = 10) => {
           const l1 = subProblems[i][k];
           const l2 = subProblems[k + 1][j];
           const l1l2: number[][] = [];
-          l1.forEach(x => {
-            l2.forEach(y => {
+          l1.forEach((x) => {
+            l2.forEach((y) => {
               l1l2.push([x, y]);
             });
           });
-          l1l2.forEach(x => {
+          l1l2.forEach((x) => {
             const a = x[0];
             const b = x[1];
             subProblems[i][j].push(a + b);
