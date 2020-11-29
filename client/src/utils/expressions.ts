@@ -1,17 +1,8 @@
-export const makePostFixExpr = (numList: number[], opList: string[]) => {
-  let expr = [String(numList[0])];
-  let rest = numList.slice(1);
-  rest.forEach((r, i) => {
-    expr = expr.concat([String(r), opList[i]]);
-  });
-  return expr;
-};
-
 export const isBalancedParenthesis = (str: string) => {
   return !Array.from(str).reduce((uptoPrevChar, thisChar) => {
-    if (thisChar === "(" || thisChar === "{" || thisChar === "[") {
+    if (thisChar === '(' || thisChar === '{' || thisChar === '[') {
       return ++uptoPrevChar;
-    } else if (thisChar === ")" || thisChar === "}" || thisChar === "]") {
+    } else if (thisChar === ')' || thisChar === '}' || thisChar === ']') {
       return --uptoPrevChar;
     }
 
@@ -19,12 +10,28 @@ export const isBalancedParenthesis = (str: string) => {
   }, 0);
 };
 
-export const getOperatorPrecedence = (c: string) => {
-  if (c === "^") return 3;
-  if (c === "*") return 2;
-  if (c === "/") return 2;
-  if (c === "+") return 1;
-  if (c === "-") return 1;
+export const inOrderCombinations = (
+  arr1: string[],
+  arr2: string[]
+): string[][] => {
+  if (arr1.length === 0) return [arr2];
+  if (arr2.length === 0) return [arr1];
+  const mergedArr: string[][] = [];
+  inOrderCombinations(arr1.slice(1), arr2)?.forEach(arr => {
+    mergedArr.push([arr1[0], ...arr]);
+  });
+  inOrderCombinations(arr2.slice(1), arr1)?.forEach(arr => {
+    mergedArr.push([arr2[0], ...arr]);
+  });
+  return mergedArr;
+};
+
+const getOperatorPrecedence = (c: string) => {
+  if (c === '^') return 3;
+  if (c === '*') return 2;
+  if (c === '/') return 2;
+  if (c === '+') return 1;
+  if (c === '-') return 1;
   return 0;
 };
 
@@ -33,15 +40,15 @@ interface IntermediateNode {
   expression: string;
 }
 
-export const postFixToInfix = (postfixExpr: string[]) => {
-  let stack: IntermediateNode[] = [];
+export const RPNToInfix = (postfixExpr: string[]) => {
+  const stack: IntermediateNode[] = [];
 
   for (const token of postfixExpr) {
     if (isNaN(parseInt(token, 10))) {
       const operatorPrecedence = getOperatorPrecedence(token);
       // Get the left and right operands from the stack.
-      let rightIntermediate = stack.pop() as IntermediateNode;
-      let leftIntermediate = stack.pop() as IntermediateNode;
+      const rightIntermediate = stack.pop() as IntermediateNode;
+      const leftIntermediate = stack.pop() as IntermediateNode;
 
       if (operatorPrecedence === 1) {
         // Note that since   + and - are lowest precedence operators,
@@ -49,8 +56,9 @@ export const postFixToInfix = (postfixExpr: string[]) => {
 
         // construct the new intermediate expression by combining the left and right
         // expressions using the operator (token).
-        let newExpr = leftIntermediate.expression + token + rightIntermediate.expression;
-        stack.push({ expression: newExpr, operator: token });
+        const newExpr =
+          leftIntermediate.expression + token + rightIntermediate.expression;
+        stack.push({expression: newExpr, operator: token});
       } else if (operatorPrecedence > 1) {
         let rightExpr = rightIntermediate.expression;
         let leftExpr = leftIntermediate.expression;
@@ -69,49 +77,49 @@ export const postFixToInfix = (postfixExpr: string[]) => {
         }
 
         const newExpr = leftExpr + token + rightExpr;
-        stack.push({ expression: newExpr, operator: token });
+        stack.push({expression: newExpr, operator: token});
       }
     } else {
       // Must be a number. Push it on the stack.
-      stack.push({ expression: token, operator: "" });
+      stack.push({expression: token, operator: ''});
     }
   }
   // There must be a single element in stack now which is the required infix.
   return stack[0].expression;
 };
 
-export const infixToPostFix = (infixExpr: string) => {
-  let stack: string[] = [];
-  let postFixExpr: string = "";
+export const infixToRPN = (infixExpr: string) => {
+  const stack: string[] = [];
+  let postFixExpr = '';
 
-  for (const token of infixExpr) {
-    if (isNaN(parseInt(token, 10))) {
+  for (let i = 0; i < infixExpr.length; i++) {
+    if (isNaN(parseInt(infixExpr[i], 10))) {
       if (stack.length === 0) {
-        stack.push(token);
-      } else if (token === ")") {
-        while (stack.length > 0 && stack[stack.length - 1] !== "(") {
+        stack.push(infixExpr[i]);
+      } else if (infixExpr[i] === ')') {
+        while (stack.length > 0 && stack[stack.length - 1] !== '(') {
           postFixExpr += stack.pop();
         }
         stack.pop();
       } else {
         // If the precedence of the scanned operator is greater than the precedence of the operator
         // in the stack(or the stack is empty or the stack contains a ‘(‘ ), push it.
-        if (getOperatorPrecedence(token) === 1) {
+        if (getOperatorPrecedence(infixExpr[i]) === 1) {
           if (getOperatorPrecedence(stack[stack.length - 1]) >= 1) {
             // Pop all the operators from the stack which are greater than or equal to in precedence
             // than that of the scanned operator. After doing that Push the scanned operator to the stack.
             // (If you encounter parenthesis while popping then stop there and push the scanned operator in the stack.)
-            while (stack.length > 0 && stack[stack.length - 1] !== "(") {
+            while (stack.length > 0 && stack[stack.length - 1] !== '(') {
               postFixExpr += stack.pop();
             }
           }
         }
         // If the scanned character is an ‘(‘, push it to the stack.
-        stack.push(token);
+        stack.push(infixExpr[i]);
       }
     } else {
       // If the scanned character is an operand, output it.
-      postFixExpr += token;
+      postFixExpr += infixExpr[i];
     }
   }
   // Pop and output from the stack until it is not empty.

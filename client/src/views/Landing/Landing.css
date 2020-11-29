@@ -1,0 +1,51 @@
+.train-game-container {
+  margin: auto;
+  max-width: 800px;
+  padding: 0px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.puzzle-input {
+  display: block;
+  border-color: white;
+  border-style: solid;
+  background-color: white;
+  border-radius: 10px;
+  border-width: 1px;
+  outline: none;
+  padding: 15px;
+  font-size: 25vh;
+  color: cornflowerblue;
+  caret-color: cornflowerblue;
+  position: relative;
+  margin: auto;
+  background-color: inherit;
+}
+
+.puzzle-input:hover {
+  border-width: 3px;
+  padding: 13px;
+}
+
+.puzzle-input:focus {
+  border-color: cornflowerblue;
+  border-width: 3px;
+  padding: 13px;
+}
+
+.puzzle-form {
+  padding: 30px;
+  padding-top: 15px;
+}
+
+.content-message {
+  text-align: center;
+}
+
+.solveable {
+  color: lightgreen;
+}
+
+.not-solveable {
+  color: crimson;
+}

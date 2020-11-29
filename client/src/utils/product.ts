@@ -9,7 +9,7 @@
 //  'ca', 'cb', 'cc']
 export const product = (items: string[], r: number) => {
   // Duplicate items array r times (to use as a placeholder)
-  let placeholder = Array(r).fill(items);
+  const placeholder = Array(r).fill(items);
   // Run through the placeholder r times and build up the
   // combinations by 1 item at at time.
   return placeholder.reduce((acc, curr) => {

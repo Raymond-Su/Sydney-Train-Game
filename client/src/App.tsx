@@ -1,14 +1,14 @@
-import React from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
-import Home from "./views/Home";
-import List from "./views/Leaderboard";
+import React from 'react';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import Landing from './views/Landing';
+import Leaderboard from './views/Leaderboard';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/list" component={List} />
+        <Route exact path="/" component={Landing} />
+        <Route path="/leaderboard" component={Leaderboard} />
       </Switch>
     </BrowserRouter>
   );
