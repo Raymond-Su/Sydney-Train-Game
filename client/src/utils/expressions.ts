@@ -1,12 +1,3 @@
-export const makePostFixExpr = (numList: number[], opList: string[]) => {
-  let expr = [String(numList[0])];
-  let rest = numList.slice(1);
-  rest.forEach((r, i) => {
-    expr = expr.concat([String(r), opList[i]]);
-  });
-  return expr;
-};
-
 export const isBalancedParenthesis = (str: string) => {
   return !Array.from(str).reduce((uptoPrevChar, thisChar) => {
     if (thisChar === "(" || thisChar === "{" || thisChar === "[") {
@@ -19,7 +10,20 @@ export const isBalancedParenthesis = (str: string) => {
   }, 0);
 };
 
-export const getOperatorPrecedence = (c: string) => {
+export const inOrderCombinations = (arr1: string[], arr2: string[]): string[][] => {
+  if (arr1.length === 0) return [arr2];
+  if (arr2.length === 0) return [arr1];
+  const mergedArr: string[][] = [];
+  inOrderCombinations(arr1.slice(1), arr2)?.forEach((arr) => {
+    mergedArr.push([arr1[0], ...arr]);
+  });
+  inOrderCombinations(arr2.slice(1), arr1)?.forEach((arr) => {
+    mergedArr.push([arr2[0], ...arr]);
+  });
+  return mergedArr;
+};
+
+const getOperatorPrecedence = (c: string) => {
   if (c === "^") return 3;
   if (c === "*") return 2;
   if (c === "/") return 2;
@@ -33,7 +37,7 @@ interface IntermediateNode {
   expression: string;
 }
 
-export const postFixToInfix = (postfixExpr: string[]) => {
+export const RPNToInfix = (postfixExpr: string[]) => {
   let stack: IntermediateNode[] = [];
 
   for (const token of postfixExpr) {
@@ -80,7 +84,7 @@ export const postFixToInfix = (postfixExpr: string[]) => {
   return stack[0].expression;
 };
 
-export const infixToPostFix = (infixExpr: string) => {
+export const infixToRPN = (infixExpr: string) => {
   let stack: string[] = [];
   let postFixExpr: string = "";
 

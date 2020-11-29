@@ -1,4 +1,4 @@
-export const evaluatePostFix = (expr: string[]): number => {
+export const evaluateRPNExpression = (expr: string[]): number => {
   let stack: string[] = [];
   for (const tok of expr) {
     let token = parseInt(tok, 10);

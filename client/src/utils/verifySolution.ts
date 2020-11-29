@@ -1,6 +1,6 @@
 import { VERIFY_SOLUTIONS } from "../constants/solutions";
-import { evaluatePostFix } from "./evaluate";
-import { infixToPostFix, isBalancedParenthesis } from "./expressions";
+import { evaluateRPNExpression } from "./evaluate";
+import { infixToRPN, isBalancedParenthesis } from "./expressions";
 import { advancedOperators } from "./findSolutions";
 
 const validNums = (str: string, numbers: number[]) => {
@@ -22,7 +22,7 @@ const validNums = (str: string, numbers: number[]) => {
 const validEval = (input: string): number => {
   try {
     if (Array.from(advancedOperators).some((operator) => input.includes(operator))) {
-      return evaluatePostFix(Array.from(infixToPostFix(input)));
+      return evaluateRPNExpression(Array.from(infixToRPN(input)));
     }
     // eslint-disable-next-line no-eval
     return eval(input);
