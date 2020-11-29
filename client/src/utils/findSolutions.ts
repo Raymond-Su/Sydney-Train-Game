@@ -1,35 +1,48 @@
-import { evaluateRPNExpression } from "./evaluate";
-import { inOrderCombinations, RPNToInfix } from "./expressions";
-import { product } from "./product";
+import {evaluateRPNExpression} from './evaluate';
+import {inOrderCombinations, RPNToInfix} from './expressions';
+import {product} from './product';
 
-export const basicOperators = ["/", "*", "-", "+"];
-export const advancedOperators = ["^"];
+export const basicOperators = ['/', '*', '-', '+'];
+export const advancedOperators = ['^'];
 export const allOperators = [...advancedOperators, ...basicOperators];
 
-export const findSolutions = (puzzle: number[], goal: number = 10, operators: string[] = allOperators) => {
+export const findSolutions = (
+  puzzle: number[],
+  goal: number = 10,
+  operators: string[] = allOperators
+) => {
   const opCombs = product(operators, puzzle.length - 1);
   const puzzleString = puzzle.map(String);
 
   // The expressions are to be represented using Reverse Polish Notation
-  let RPNSolutions: string[][] = [];
+  let RPNExpressions: string[][] = [];
   opCombs.forEach((opList: string[]) => {
     // Consider a valid RPN expression {a1 a2 a3 a4 a5 a6 ... aN}.
     // {a1 a2} should be operands, as there are no unary operations on the stack.
     // {aN} should be an operator, to complete the operation.
     // Hence, we only need to count possible combinations of the middle segment.
-    inOrderCombinations(puzzleString.slice(2, puzzle.length), opList.slice(0, opList.length - 1)).forEach(
-      (middleSegment) => {
-        // Prepend the two operands and append the operator
-        const RPNExpr = puzzleString.slice(0, 2).concat(middleSegment, opList[opList.length - 1]);
-        if (evaluateRPNExpression(RPNExpr) === goal) RPNSolutions.push(RPNExpr);
-      }
-    );
+    inOrderCombinations(
+      puzzleString.slice(2, puzzle.length),
+      opList.slice(0, opList.length - 1)
+    ).forEach(middleSegment => {
+      // Prepend the two operands and append the operator
+      RPNExpressions.push([
+        ...puzzleString.slice(0, 2),
+        ...middleSegment,
+        ...opList[opList.length - 1],
+      ]);
+    });
   });
+  const RPNSolutions: string[][] = RPNExpressions.filter(
+    expr => evaluateRPNExpression(expr) === goal
+  );
 
   // Convert to infix solution to make it human readable
-  return RPNSolutions.map((solution) => RPNToInfix(solution));
+  const infixSolutions = RPNSolutions.map(solution => RPNToInfix(solution));
+  return [...new Set(infixSolutions)];
 };
 
+// Finding whether a solution exists using dynamic programming.
 export const isSolveable = (puzzle: number[], target = 10) => {
   const n = Array.from(puzzle).length;
 
@@ -52,12 +65,12 @@ export const isSolveable = (puzzle: number[], target = 10) => {
           const l1 = subProblems[i][k];
           const l2 = subProblems[k + 1][j];
           const l1l2: number[][] = [];
-          l1.forEach((x) => {
-            l2.forEach((y) => {
+          l1.forEach(x => {
+            l2.forEach(y => {
               l1l2.push([x, y]);
             });
           });
-          l1l2.forEach((x) => {
+          l1l2.forEach(x => {
             const a = x[0];
             const b = x[1];
             subProblems[i][j].push(a + b);

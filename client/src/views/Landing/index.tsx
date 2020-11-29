@@ -1,39 +1,31 @@
-import React, { useState, KeyboardEvent } from "react";
-import { v1 as uuidv1 } from "uuid";
-import { findSolutions, isSolveable } from "../../utils/findSolutions";
+import React, {useState, KeyboardEvent} from 'react';
+import {v1 as uuidv1} from 'uuid';
+import {findSolutions, isSolveable} from '../../utils/findSolutions';
 
-import "./Landing.css";
+import './Landing.css';
 
 const validateNumber = (evt: KeyboardEvent<HTMLInputElement>) => {
-  // https://stackoverflow.com/a/12142807
-  const e = evt || window.event;
-  const key = e.keyCode || e.which;
+  const key = evt.key;
   if (
-    !e.shiftKey &&
-    !e.altKey &&
-    !e.ctrlKey &&
+    !evt.shiftKey &&
+    !evt.altKey &&
+    !evt.ctrlKey &&
     // numbers
-    ((key >= 48 && key <= 57) ||
-      // Numeric keypad
-      (key >= 96 && key <= 105) ||
-      // Backspace and Tab and Enter
-      key === 8 ||
-      key === 9 ||
-      key === 13 ||
-      // Home and End
-      key === 35 ||
-      key === 36 ||
-      // left and right arrows
-      key === 37 ||
-      key === 39 ||
-      // Del and Ins
-      key === 46 ||
-      key === 45)
+    (isFinite(Number(evt.key)) ||
+      key === 'Backspace' ||
+      key === 'Tav' ||
+      key === 'Enter' ||
+      key === 'Home' ||
+      key === 'End' ||
+      key === 'Left' ||
+      key === 'Right' ||
+      key === 'Delete' ||
+      key === 'Insert')
   ) {
     // input is VALID
-  } else if (e.preventDefault) {
+  } else if (evt.preventDefault) {
     // input is INVALID
-    e.preventDefault();
+    evt.preventDefault();
   }
 };
 
@@ -46,8 +38,9 @@ const Landing = () => {
       <div className="train-game-container">
         <h1>Sydney Train Game</h1>
         <p className="subtitle">
-          Solver to the train/bus/ferry/tram/any 4 digit number game. Must make 10 by using all 4 numbers in order. Can
-          use any number of parentheses and the + - × ÷ operators.
+          Solver to the train/bus/ferry/tram/any 4 digit number game. Must make
+          10 by using all 4 numbers in order. Can use any number of parentheses
+          and the + - × ÷ operators.
         </p>
         <form className="puzzle-form" autoComplete="off">
           <input
@@ -60,11 +53,11 @@ const Landing = () => {
             pattern="\d*"
             onKeyDown={validateNumber}
             onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-              const { value } = e.target as HTMLInputElement;
+              const {value} = e.target as HTMLInputElement;
               setValidInput(value.length === 4);
               setSolutions([]);
               if (value.length === 4) {
-                const puzzle = Array.from(value).map((i) => parseInt(i, 10));
+                const puzzle = Array.from(value).map(i => parseInt(i, 10));
                 if (isSolveable(puzzle)) {
                   setSolveable(true);
                   setSolutions(findSolutions(puzzle));

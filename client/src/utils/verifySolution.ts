@@ -1,7 +1,7 @@
-import { VERIFY_SOLUTIONS } from "../constants/solutions";
-import { evaluateRPNExpression } from "./evaluate";
-import { infixToRPN, isBalancedParenthesis } from "./expressions";
-import { advancedOperators } from "./findSolutions";
+import {VERIFY_SOLUTIONS} from '../constants/solutions';
+import {evaluateRPNExpression} from './evaluate';
+import {infixToRPN, isBalancedParenthesis} from './expressions';
+import {advancedOperators} from './findSolutions';
 
 const validNums = (str: string, numbers: number[]) => {
   // Create a duplicate of our input numbers, so that
@@ -11,17 +11,19 @@ const validNums = (str: string, numbers: number[]) => {
 
   // Sort after mapping to numbers, to make comparisons valid.
   return str
-    .replace(/[^\d\s]/g, " ")
+    .replace(/[^\d\s]/g, ' ')
     .trim()
     .split(/\s+/)
-    .map((n) => parseInt(n, 10))
+    .map(n => parseInt(n, 10))
     .sort()
     .every((v, i) => v === mnums[i]);
 };
 
 const validEval = (input: string): number => {
   try {
-    if (Array.from(advancedOperators).some((operator) => input.includes(operator))) {
+    if (
+      Array.from(advancedOperators).some(operator => input.includes(operator))
+    ) {
       return evaluateRPNExpression(Array.from(infixToRPN(input)));
     }
     // eslint-disable-next-line no-eval
@@ -31,12 +33,17 @@ const validEval = (input: string): number => {
   }
 };
 
-export const verifySolution = (numbers: number[], input: string, goal: number): string => {
+export const verifySolution = (
+  numbers: number[],
+  input: string,
+  goal: number
+): string => {
   let invalidChars = /[^\d+*/\s-()^]/;
 
-  if (input.trim() === "") return VERIFY_SOLUTIONS.EMPTY_INPUT;
+  if (input.trim() === '') return VERIFY_SOLUTIONS.EMPTY_INPUT;
   if (input.match(invalidChars)) return VERIFY_SOLUTIONS.INVALID_CHAR;
-  if (!isBalancedParenthesis(input)) return VERIFY_SOLUTIONS.INVALID_PARENTHESIS;
+  if (!isBalancedParenthesis(input))
+    return VERIFY_SOLUTIONS.INVALID_PARENTHESIS;
   if (!validNums(input, numbers)) return VERIFY_SOLUTIONS.INVALD_NUMBERS;
 
   const calc = validEval(input);
