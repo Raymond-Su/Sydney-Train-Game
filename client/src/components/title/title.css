@@ -1,0 +1,10 @@
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-content {
+  max-width: 600px;
+  text-align: center;
+}
