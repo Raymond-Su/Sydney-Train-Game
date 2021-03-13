@@ -11,6 +11,9 @@
   caret-color: blue;
   padding: 15px 20px;
   background-color: inherit;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 .puzzle-input:hover {
