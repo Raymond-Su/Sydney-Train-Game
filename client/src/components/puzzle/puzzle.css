@@ -6,12 +6,10 @@
   border-radius: 10px;
   border-width: 1px;
   outline: none;
-  padding: 15px;
   font-size: 5em;
   color: blue;
   caret-color: blue;
-  position: relative;
-  margin: auto;
+  padding: 15px 20px;
   background-color: inherit;
 }
 
@@ -27,7 +25,8 @@
 }
 
 .puzzle-form {
-  padding: 15px 30px;
+  box-sizing: border-box;
+  align-self: center;
 }
 
 .content-message {
