@@ -10,7 +10,7 @@ router.post('/puzzle', (req, res) => {
   const hasSolutions = solve.isSolveable(puzzleInput);
   const solutions = solve.findSolutions(puzzleInput);
 
-  res.status(201).json({
+  res.status(200).json({
     hasSolutions: hasSolutions,
     solutions: solutions
   });
