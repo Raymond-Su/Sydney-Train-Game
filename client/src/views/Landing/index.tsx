@@ -22,11 +22,11 @@ const Landing = () => {
       })
         .then((response) => response.json())
         .then((data: PuzzleSolutionResponse) => {
-          setSolutions([]);
           if (data.hasSolutions) {
             setSolveable(true);
             setSolutions(data.solutions);
           } else {
+            setSolutions([]);
             setSolveable(false);
           }
         })
