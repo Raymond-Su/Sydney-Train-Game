@@ -27,7 +27,7 @@ const Landing = () => {
             setSolveable(true);
             setSolutions(data.solutions);
           } else {
-            setSolveable(true);
+            setSolveable(false);
           }
         })
         .catch(() => setSolutions([]));
