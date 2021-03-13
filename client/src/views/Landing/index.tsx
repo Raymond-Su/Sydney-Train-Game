@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useMemo } from 'react';
 import Container from '../../components/container';
 import Puzzle from '../../components/puzzle';
 import Title from '../../components/title';
@@ -11,7 +11,6 @@ const Landing = () => {
 
   const handleSolve = (e: KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
-    setInputValid(value.length === 4);
 
     if (value.length === 4) {
       const payload = { puzzle: Array.from(value).map((i) => parseInt(i, 10)) };
@@ -22,17 +21,28 @@ const Landing = () => {
       })
         .then((response) => response.json())
         .then((data: PuzzleSolutionResponse) => {
-          if (data.hasSolutions) {
-            setSolutions(data.solutions);
-            setSolveable(true);
-          } else {
-            setSolutions([]);
-            setSolveable(false);
-          }
+          setInputValid(true);
+          setSolveable(data.hasSolutions);
+          setSolutions(data.solutions);
         })
-        .catch(() => setSolutions([]));
+        .catch(() => {
+          setInputValid(false);
+        });
+    } else {
+      setInputValid(false);
     }
   };
+  const renderPuzzle = useMemo(
+    () => (
+      <Puzzle
+        handleSolve={handleSolve}
+        hasSolutions={solveabale}
+        inputValid={inputValid}
+        solutions={solutions}
+      />
+    ),
+    [inputValid, solutions, solveabale]
+  );
   return (
     <Container>
       <Title
@@ -41,12 +51,7 @@ const Landing = () => {
           10 by using all 4 numbers in order. Can use any number of parentheses
           and the + - × ÷ operators."
       />
-      <Puzzle
-        handleSolve={handleSolve}
-        hasSolutions={solveabale}
-        inputValid={inputValid}
-        solutions={solutions}
-      />
+      {renderPuzzle}
     </Container>
   );
 };
