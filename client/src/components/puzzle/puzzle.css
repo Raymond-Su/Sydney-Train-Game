@@ -1,5 +1,5 @@
 .puzzle-input {
-  display: block;
+  width: fit-content;
   border-color: white;
   border-style: solid;
   background-color: white;
