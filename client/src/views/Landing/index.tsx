@@ -12,7 +12,7 @@ const Landing = () => {
   const handleSolve = (e: KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
     setInputValid(value.length === 4);
-    setSolutions([]);
+
     if (value.length === 4) {
       const payload = { puzzle: Array.from(value).map((i) => parseInt(i, 10)) };
       fetch('/api/solve/puzzle', {
@@ -22,13 +22,15 @@ const Landing = () => {
       })
         .then((response) => response.json())
         .then((data: PuzzleSolutionResponse) => {
+          setSolutions([]);
           if (data.hasSolutions) {
             setSolveable(true);
             setSolutions(data.solutions);
           } else {
             setSolveable(true);
           }
-        });
+        })
+        .catch(() => setSolutions([]));
     }
   };
   return (
