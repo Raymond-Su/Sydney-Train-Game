@@ -23,8 +23,8 @@ const Landing = () => {
         .then((response) => response.json())
         .then((data: PuzzleSolutionResponse) => {
           if (data.hasSolutions) {
-            setSolveable(true);
             setSolutions(data.solutions);
+            setSolveable(true);
           } else {
             setSolutions([]);
             setSolveable(false);
