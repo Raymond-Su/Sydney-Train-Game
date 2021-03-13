@@ -2,7 +2,7 @@ import React, { useState, KeyboardEvent } from 'react';
 import Container from '../../components/container';
 import Puzzle from '../../components/puzzle';
 import Title from '../../components/title';
-import { findSolutions, isSolveable } from '../../utils/findSolutions';
+import { PuzzleSolutionResponse } from '../../types';
 
 const Landing = () => {
   const [solveabale, setSolveable] = useState<boolean>(false);
@@ -14,13 +14,21 @@ const Landing = () => {
     setInputValid(value.length === 4);
     setSolutions([]);
     if (value.length === 4) {
-      const puzzle = Array.from(value).map((i) => parseInt(i, 10));
-      if (isSolveable(puzzle)) {
-        setSolveable(true);
-        setSolutions(findSolutions(puzzle));
-      } else {
-        setSolveable(false);
-      }
+      const payload = { puzzle: Array.from(value).map((i) => parseInt(i, 10)) };
+      fetch('/api/solve/puzzle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then((response) => response.json())
+        .then((data: PuzzleSolutionResponse) => {
+          if (data.hasSolutions) {
+            setSolveable(true);
+            setSolutions(data.solutions);
+          } else {
+            setSolveable(true);
+          }
+        });
     }
   };
   return (
