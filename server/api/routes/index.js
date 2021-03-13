@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/scores', require('./scores'));
+router.use('/solve', require('./solve'));
 
 module.exports = router;
