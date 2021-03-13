@@ -2,8 +2,32 @@ import React, { KeyboardEvent } from 'react';
 import { v1 as uuidv1 } from 'uuid';
 import './puzzle.css';
 
+const validateNumber = (evt: KeyboardEvent<HTMLInputElement>) => {
+  const key = evt.key;
+  if (
+    !evt.shiftKey &&
+    !evt.altKey &&
+    !evt.ctrlKey &&
+    // numbers
+    (isFinite(Number(evt.key)) ||
+      key === 'Backspace' ||
+      key === 'Tav' ||
+      key === 'Enter' ||
+      key === 'Home' ||
+      key === 'End' ||
+      key === 'ArrowLeft' ||
+      key === 'ArrowRight' ||
+      key === 'Delete' ||
+      key === 'Insert')
+  ) {
+    // input is VALID
+  } else if (evt.preventDefault) {
+    // input is INVALID
+    evt.preventDefault();
+  }
+};
+
 interface PuzzleProps {
-  validateInput: (e: KeyboardEvent<HTMLInputElement>) => void;
   handleSolve: (e: KeyboardEvent<HTMLInputElement>) => void;
   hasSolutions: boolean;
   inputValid: boolean;
@@ -11,7 +35,6 @@ interface PuzzleProps {
 }
 
 const Puzzle = ({
-  validateInput,
   handleSolve,
   hasSolutions,
   inputValid,
@@ -47,7 +70,7 @@ const Puzzle = ({
           placeholder="1234"
           size={4}
           pattern="\d*"
-          onKeyDown={validateInput}
+          onKeyDown={validateNumber}
           onKeyUp={handleSolve}
         />
       </form>
